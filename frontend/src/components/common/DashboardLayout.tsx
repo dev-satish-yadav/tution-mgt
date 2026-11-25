@@ -52,8 +52,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
       { name: 'Students', path: '/admin/students', icon: GraduationCap },
       { name: 'Teachers', path: '/admin/teachers', icon: Users },
       { name: 'Standards & Streams', path: '/admin/standards', icon: Layers },
+      { name: 'Subjects', path: '/admin/subjects', icon: BookOpen },
       { name: 'Batches', path: '/admin/batches', icon: Calendar },
-      { name: 'Courses & Syllabus', path: '/admin/courses', icon: BookOpen },
       { name: 'Study Materials', path: '/admin/materials', icon: FileText },
       { name: 'Tests & Quizzes', path: '/admin/tests', icon: CheckSquare },
       { name: 'Attendance Records', path: '/admin/attendance', icon: UserCheck },
@@ -65,7 +65,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     navItems = [
       { name: 'Dashboard', path: '/teacher/dashboard', icon: LayoutDashboard },
       { name: 'Students', path: '/teacher/students', icon: GraduationCap },
-      { name: 'Courses & Syllabus', path: '/teacher/courses', icon: BookOpen },
+      { name: 'Subjects', path: '/teacher/subjects', icon: BookOpen },
       { name: 'Mark Attendance', path: '/teacher/attendance', icon: UserCheck },
       { name: 'Study Materials', path: '/teacher/materials', icon: FileText },
       { name: 'Tests & Results', path: '/teacher/tests', icon: CheckSquare },

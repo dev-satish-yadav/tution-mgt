@@ -2,7 +2,8 @@ import { Response, NextFunction } from 'express';
 import { User } from '../users/user.model.js';
 import { StudentProfile } from '../students/student.model.js';
 import { TeacherProfile } from '../teachers/teacher.model.js';
-import { Course } from '../courses/course.model.js';
+import { Standard } from '../standards/standard.model.js';
+import { Subject } from '../subjects/subject.model.js';
 import { Batch } from '../batches/batch.model.js';
 import { Enquiry } from '../enquiries/enquiry.model.js';
 import { Test } from '../tests/test.model.js';
@@ -19,7 +20,8 @@ export const getAdminDashboard = async (_req: AuthenticatedRequest, res: Respons
       totalStudents,
       totalTeachers,
       totalBatches,
-      totalCourses,
+      totalStandards,
+      totalSubjects,
       totalEnquiries,
       newEnquiriesCount,
       recentEnquiries,
@@ -29,7 +31,8 @@ export const getAdminDashboard = async (_req: AuthenticatedRequest, res: Respons
       StudentProfile.countDocuments(),
       TeacherProfile.countDocuments(),
       Batch.countDocuments({ isActive: true }),
-      Course.countDocuments({ isActive: true }),
+      Standard.countDocuments({ isActive: true }),
+      Subject.countDocuments({ isActive: true }),
       Enquiry.countDocuments(),
       Enquiry.countDocuments({ status: 'NEW' }),
       Enquiry.find().sort({ createdAt: -1 }).limit(5),
@@ -42,7 +45,8 @@ export const getAdminDashboard = async (_req: AuthenticatedRequest, res: Respons
         totalStudents,
         totalTeachers,
         totalBatches,
-        totalCourses,
+        totalStandards,
+        totalSubjects,
         totalEnquiries,
         newEnquiriesCount,
       },

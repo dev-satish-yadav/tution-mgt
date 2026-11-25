@@ -14,7 +14,6 @@ import authRoutes from './modules/auth/auth.routes.js';
 import studentRoutes from './modules/students/student.routes.js';
 import teacherRoutes from './modules/teachers/teacher.routes.js';
 import standardRoutes from './modules/standards/standard.routes.js';
-import courseRoutes from './modules/courses/course.routes.js';
 import subjectRoutes from './modules/subjects/subject.routes.js';
 import batchRoutes from './modules/batches/batch.routes.js';
 import enrollmentRoutes from './modules/enrollments/enrollment.routes.js';
@@ -74,7 +73,6 @@ export const createApp = () => {
   v1.use('/students', studentRoutes);
   v1.use('/teachers', teacherRoutes);
   v1.use('/standards', standardRoutes);
-  v1.use('/courses', courseRoutes);
   v1.use('/subjects', subjectRoutes);
   v1.use('/batches', batchRoutes);
   v1.use('/enrollments', enrollmentRoutes);

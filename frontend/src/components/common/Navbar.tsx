@@ -14,9 +14,6 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/', visible: true },
     { name: 'About Us', path: '/about', visible: true },
-    { name: 'Courses', path: '/courses', visible: settings.showCourses },
-    { name: '11th Commerce', path: '/courses/11-commerce', visible: settings.showGrade11 },
-    { name: '12th Commerce', path: '/courses/12-commerce', visible: settings.showGrade12 },
     { name: 'Admissions', path: '/admission', visible: settings.showAdmissions },
     { name: 'Contact', path: '/contact', visible: true },
   ].filter((item) => item.visible);

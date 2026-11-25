@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getBatches, getBatchById, createBatch, updateBatch } from './batch.controller.js';
+import { getBatches, getBatchById, createBatch, updateBatch, deleteBatch } from './batch.controller.js';
 import { authenticate, requireRole } from '../../common/middleware/auth.middleware.js';
 
 const router = Router();
@@ -10,8 +10,9 @@ router.use(authenticate);
 router.get('/', requireRole(['ADMIN', 'TEACHER']), getBatches);
 router.get('/:id', requireRole(['ADMIN', 'TEACHER', 'STUDENT']), getBatchById);
 
-// Admin can create and update batches
+// Admin can create, update, and delete batches
 router.post('/', requireRole(['ADMIN']), createBatch);
 router.patch('/:id', requireRole(['ADMIN']), updateBatch);
+router.delete('/:id', requireRole(['ADMIN']), deleteBatch);
 
 export default router;

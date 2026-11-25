@@ -2,17 +2,11 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ISubject extends Document {
   name: string;
-  code: string;
-  grade: '11th' | '12th' | string;
-  standard?: mongoose.Types.ObjectId;
-  course: mongoose.Types.ObjectId;
+  code?: string;
+  standard: mongoose.Types.ObjectId;
   description?: string;
   order: number;
-  chapters: {
-    title: string;
-    chapterNumber: number;
-    description?: string;
-  }[];
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,24 +20,12 @@ const SubjectSchema = new Schema<ISubject>(
     },
     code: {
       type: String,
-      required: true,
-      unique: true,
-      uppercase: true,
       trim: true,
-    },
-    grade: {
-      type: String,
-      required: true,
-      index: true,
+      uppercase: true,
     },
     standard: {
       type: Schema.Types.ObjectId,
       ref: 'Standard',
-      index: true,
-    },
-    course: {
-      type: Schema.Types.ObjectId,
-      ref: 'Course',
       required: true,
       index: true,
     },
@@ -53,15 +35,12 @@ const SubjectSchema = new Schema<ISubject>(
     },
     order: {
       type: Number,
-      default: 1,
+      default: 0,
     },
-    chapters: [
-      {
-        title: { type: String, required: true },
-        chapterNumber: { type: Number, required: true },
-        description: { type: String },
-      },
-    ],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

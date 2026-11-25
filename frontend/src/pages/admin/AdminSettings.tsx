@@ -13,7 +13,6 @@ export const AdminSettings: React.FC = () => {
     email: '',
     address: '',
     whatsappNumber: '',
-    showCourses: false,
     showGrade11: false,
     showGrade12: false,
     showAdmissions: false,
@@ -35,7 +34,6 @@ export const AdminSettings: React.FC = () => {
         email: settings.email || '',
         address: settings.address || '',
         whatsappNumber: settings.whatsappNumber || '',
-        showCourses: !!settings.showCourses,
         showGrade11: !!settings.showGrade11,
         showGrade12: !!settings.showGrade12,
         showAdmissions: !!settings.showAdmissions,
@@ -59,7 +57,7 @@ export const AdminSettings: React.FC = () => {
     setIsSaving(false);
   };
 
-  const toggleOption = (key: 'showCourses' | 'showGrade11' | 'showGrade12' | 'showAdmissions') => {
+  const toggleOption = (key: 'showGrade11' | 'showGrade12' | 'showAdmissions') => {
     setFormData((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -124,36 +122,12 @@ export const AdminSettings: React.FC = () => {
               </button>
             </div>
 
-            {/* Toggle: Courses Catalog */}
-            <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
-              <div className="space-y-0.5">
-                <p className="font-bold text-slate-900 text-sm">Courses Catalog Tab & Page (`/courses`)</p>
-                <p className="text-xs text-slate-500">
-                  Displays the 'Courses' link in the top menu and enables the course comparison view.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => toggleOption('showCourses')}
-                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  formData.showCourses ? 'bg-indigo-600' : 'bg-slate-300'
-                }`}
-              >
-                <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
-                    formData.showCourses ? 'translate-x-5' : 'translate-x-0'
-                  }`}
-                />
-              </button>
-            </div>
-
             {/* Toggle: 11th Commerce */}
             <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
               <div className="space-y-0.5">
-                <p className="font-bold text-slate-900 text-sm">11th Commerce Tab & Page (`/courses/11-commerce`)</p>
+                <p className="font-bold text-slate-900 text-sm">11th Commerce Showcase</p>
                 <p className="text-xs text-slate-500">
-                  Shows 11th Commerce in the top navigation, footer, and home page cards.
+                  Shows 11th Commerce features on the public home page and footer.
                 </p>
               </div>
 
@@ -175,9 +149,9 @@ export const AdminSettings: React.FC = () => {
             {/* Toggle: 12th Commerce */}
             <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
               <div className="space-y-0.5">
-                <p className="font-bold text-slate-900 text-sm">12th Commerce Tab & Page (`/courses/12-commerce`)</p>
+                <p className="font-bold text-slate-900 text-sm">12th Commerce Showcase</p>
                 <p className="text-xs text-slate-500">
-                  Shows 12th Commerce in the top navigation, footer, and home page cards.
+                  Shows 12th Commerce features on the public home page and footer.
                 </p>
               </div>
 

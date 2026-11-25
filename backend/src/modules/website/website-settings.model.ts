@@ -10,7 +10,6 @@ export interface IWebsiteSettings extends Document {
   whatsappNumber: string;
 
   // Feature / Navigation toggles (Disabled by default as requested)
-  showCourses: boolean;
   showGrade11: boolean;
   showGrade12: boolean;
   showAdmissions: boolean;
@@ -56,10 +55,6 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
     },
 
     // Default toggles are FALSE per user requirement
-    showCourses: {
-      type: Boolean,
-      default: false,
-    },
     showGrade11: {
       type: Boolean,
       default: false,

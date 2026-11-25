@@ -245,22 +245,12 @@ export const HomePage: React.FC = () => {
                   </Link>
                 )}
 
-                {/* Conditionally display Courses button */}
-                {settings.showCourses ? (
-                  <Link
-                    to="/courses"
-                    className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-base hover:bg-slate-50 hover:border-slate-400 transition-all text-center"
-                  >
-                    Explore Course Syllabus
-                  </Link>
-                ) : (
-                  <Link
-                    to="/about"
-                    className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-base hover:bg-slate-50 hover:border-slate-400 transition-all text-center"
-                  >
-                    About Our Academy
-                  </Link>
-                )}
+                <Link
+                  to="/about"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-base hover:bg-slate-50 hover:border-slate-400 transition-all text-center"
+                >
+                  About Our Academy
+                </Link>
               </div>
 
               {/* Key Trust Metrics */}
@@ -574,8 +564,8 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. Flagship Courses Section (Conditional on Admin Toggles) */}
-      {(settings.showCourses || settings.showGrade11 || settings.showGrade12) && (
+      {/* 5. Flagship Programs Section (Conditional on Admin Toggles) */}
+      {(settings.showGrade11 || settings.showGrade12) && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2">Our Specialized Programs</h2>
@@ -622,13 +612,19 @@ export const HomePage: React.FC = () => {
                     <span className="text-xs text-slate-500 block">Course Duration</span>
                     <span className="font-bold text-slate-800 text-sm">12 Months (Full Year)</span>
                   </div>
-                  <Link
-                    to="/courses/11-commerce"
-                    className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-indigo-600 transition-colors"
-                  >
-                    <span>View Details</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  {settings.showAdmissions ? (
+                    <Link
+                      to="/admission"
+                      className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-indigo-600 transition-colors"
+                    >
+                      <span>Enroll in 11th</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  ) : (
+                    <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">
+                      Batches Open
+                    </span>
+                  )}
                 </div>
               </div>
             )}
@@ -671,13 +667,19 @@ export const HomePage: React.FC = () => {
                     <span className="text-xs text-slate-500 block">Course Duration</span>
                     <span className="font-bold text-slate-800 text-sm">12 Months + Mock Series</span>
                   </div>
-                  <Link
-                    to="/courses/12-commerce"
-                    className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold text-sm hover:bg-indigo-700 transition-colors shadow"
-                  >
-                    <span>View Details</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  {settings.showAdmissions ? (
+                    <Link
+                      to="/admission"
+                      className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold text-sm hover:bg-indigo-700 transition-colors shadow"
+                    >
+                      <span>Enroll in 12th</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  ) : (
+                    <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">
+                      Batches Open
+                    </span>
+                  )}
                 </div>
               </div>
             )}

@@ -3,7 +3,6 @@ import { connectDatabase } from '../config/database.js';
 import { config } from '../config/env.js';
 import { User } from '../modules/users/user.model.js';
 import { Standard } from '../modules/standards/standard.model.js';
-import { Course } from '../modules/courses/course.model.js';
 import { Subject } from '../modules/subjects/subject.model.js';
 import { Batch } from '../modules/batches/batch.model.js';
 import { StudentProfile } from '../modules/students/student.model.js';
@@ -64,90 +63,72 @@ export const seedData = async () => {
       console.log('[Seed] Standard 12th Commerce seeded');
     }
 
-    // 2. Seed Courses for 11th and 12th Commerce
-    let course11 = await Course.findOne({ slug: '11-commerce' });
-    if (!course11) {
-      course11 = await Course.create({
-        title: '11th Commerce Comprehensive Mastery',
-        slug: '11-commerce',
-        grade: '11th',
-        stream: 'Commerce',
-        standard: std11._id,
-        description: 'Rigorous foundation in Accountancy, Economics, Business Studies and Applied Mathematics designed for CBSE and State Board excellence.',
-        features: [
-          'Conceptual depth in Financial Accounting',
-          'Interactive Microeconomics and Statistics sessions',
-          'Weekly revision worksheets and unit assessments',
-          'Doubt-clearing workshops and personalized mentoring',
-        ],
-        durationMonths: 12,
-        feeAmount: 35000,
-        isActive: true,
-      });
-      console.log('[Seed] 11th Commerce Course seeded');
-    } else if (!course11.standard) {
-      course11.standard = std11._id;
-      await course11.save();
-    }
-
-    let course12 = await Course.findOne({ slug: '12-commerce' });
-    if (!course12) {
-      course12 = await Course.create({
-        title: '12th Commerce Board & CUET Excellence',
-        slug: '12-commerce',
-        grade: '12th',
-        stream: 'Commerce',
-        standard: std12._id,
-        description: 'Elite board preparation program covering Company Accounts, Macroeconomics, Business Management with full mock exam series.',
-        features: [
-          'Mastery over Partnership and Company Accounting',
-          'Macroeconomics & Indian Economic Development case studies',
-          'Past 10 years solved board papers and CUET orientation',
-          'Timed full-syllabus mock tests with model answer evaluation',
-        ],
-        durationMonths: 12,
-        feeAmount: 42000,
-        isActive: true,
-      });
-      console.log('[Seed] 12th Commerce Course seeded');
-    } else if (!course12.standard) {
-      course12.standard = std12._id;
-      await course12.save();
-    }
-
-    // 3. Seed Subjects for 11th and 12th Commerce
+    // 2. Seed Subjects directly associated with Standards
     const subjectsSeed = [
-      { name: 'Financial Accounting', code: 'ACC11', grade: '11th', course: course11._id, order: 1 },
-      { name: 'Microeconomics & Statistics', code: 'ECO11', grade: '11th', course: course11._id, order: 2 },
-      { name: 'Business Studies', code: 'BST11', grade: '11th', course: course11._id, order: 3 },
-      { name: 'Corporate Accounting', code: 'ACC12', grade: '12th', course: course12._id, order: 1 },
-      { name: 'Macroeconomics & Indian Economy', code: 'ECO12', grade: '12th', course: course12._id, order: 2 },
-      { name: 'Business Management', code: 'BST12', grade: '12th', course: course12._id, order: 3 },
+      {
+        name: 'Financial Accounting',
+        code: 'ACC11',
+        standard: std11._id,
+        description: 'Double entry fundamentals, ledger posting, trial balance, and financial statement formulation.',
+        order: 1,
+      },
+      {
+        name: 'Microeconomics & Statistics',
+        code: 'ECO11',
+        standard: std11._id,
+        description: 'Consumer behavior, demand and supply elasticities, and descriptive economic statistics.',
+        order: 2,
+      },
+      {
+        name: 'Business Studies',
+        code: 'BST11',
+        standard: std11._id,
+        description: 'Foundations of business, corporate forms of organization, and commercial finance.',
+        order: 3,
+      },
+      {
+        name: 'Corporate Accounting',
+        code: 'ACC12',
+        standard: std12._id,
+        description: 'Accounting for partnership dissolution, share capital issue, debentures, and cash flow.',
+        order: 1,
+      },
+      {
+        name: 'Macroeconomics & Indian Economy',
+        code: 'ECO12',
+        standard: std12._id,
+        description: 'National income accounting, monetary policy, government budget, and economic reforms.',
+        order: 2,
+      },
+      {
+        name: 'Business Management',
+        code: 'BST12',
+        standard: std12._id,
+        description: 'Principles of management, business environment, planning, organizing, staffing, and marketing.',
+        order: 3,
+      },
     ];
 
     for (const sub of subjectsSeed) {
       const exists = await Subject.findOne({ code: sub.code });
       if (!exists) {
-        await Subject.create({
-          ...sub,
-          chapters: [
-            { chapterNumber: 1, title: 'Introduction and Theoretical Framework' },
-            { chapterNumber: 2, title: 'Core Principles & Recording Transactions' },
-            { chapterNumber: 3, title: 'Advanced Analysis & Practice Problems' },
-          ],
-        });
+        await Subject.create(sub);
       }
     }
     console.log('[Seed] Subjects seeded');
 
-    // 4. Seed Batches
+    // 3. Seed Batches associated with Standards & Subjects
+    const subAcc12 = await Subject.findOne({ code: 'ACC12' });
+    const subAcc11 = await Subject.findOne({ code: 'ACC11' });
+
     let batch12Morning = await Batch.findOne({ code: '12C-MORN-26' });
     if (!batch12Morning) {
       batch12Morning = await Batch.create({
         name: '12th Commerce Morning Achievers',
         code: '12C-MORN-26',
         grade: '12th',
-        course: course12._id,
+        standard: std12._id,
+        subject: subAcc12?._id,
         academicYear: '2026-2027',
         scheduleTime: '08:00 AM - 11:30 AM (Mon - Sat)',
         maxCapacity: 40,
@@ -161,7 +142,8 @@ export const seedData = async () => {
         name: '11th Commerce Evening Foundation',
         code: '11C-EVE-26',
         grade: '11th',
-        course: course11._id,
+        standard: std11._id,
+        subject: subAcc11?._id,
         academicYear: '2026-2027',
         scheduleTime: '04:30 PM - 07:30 PM (Mon - Fri)',
         maxCapacity: 40,

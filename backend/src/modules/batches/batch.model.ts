@@ -3,9 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IBatch extends Document {
   name: string; // e.g. "12th Commerce Morning Star"
   code: string; // e.g. "12C-MORN-2026"
-  grade: '11th' | '12th' | string;
-  standard?: mongoose.Types.ObjectId;
-  course: mongoose.Types.ObjectId;
+  grade?: '11th' | '12th' | string;
+  standard: mongoose.Types.ObjectId;
+  subject?: mongoose.Types.ObjectId;
   academicYear: string; // e.g. "2026-2027"
   scheduleTime: string; // e.g. "08:00 AM - 11:30 AM"
   maxCapacity: number;
@@ -31,18 +31,18 @@ const BatchSchema = new Schema<IBatch>(
     },
     grade: {
       type: String,
-      required: true,
-      index: true,
+      trim: true,
     },
     standard: {
       type: Schema.Types.ObjectId,
       ref: 'Standard',
+      required: true,
       index: true,
     },
-    course: {
+    subject: {
       type: Schema.Types.ObjectId,
-      ref: 'Course',
-      required: true,
+      ref: 'Subject',
+      index: true,
     },
     academicYear: {
       type: String,

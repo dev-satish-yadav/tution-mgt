@@ -17,7 +17,6 @@ const defaultSettings: WebsiteSettings = {
   email: 'admissions@apexcommerce.edu',
   address: '402 Apex Towers, Commerce Plaza, MG Road, Mumbai - 400001',
   whatsappNumber: '919876543210',
-  showCourses: false,
   showGrade11: false,
   showGrade12: false,
   showAdmissions: false,

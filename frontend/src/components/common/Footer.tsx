@@ -51,13 +51,6 @@ export const Footer: React.FC = () => {
                   About the Academy
                 </Link>
               </li>
-              {settings.showCourses && (
-                <li>
-                  <Link to="/courses" className="hover:text-white transition-colors">
-                    All Courses
-                  </Link>
-                </li>
-              )}
               {settings.showAdmissions && (
                 <li>
                   <Link to="/admission" className="hover:text-white transition-colors">
@@ -73,24 +66,16 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Academic Programs (Conditional on flags) */}
+          {/* Academic Programs */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Commerce Programs</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Core Streams</h3>
             <ul className="space-y-2.5 text-sm">
-              {settings.showGrade11 && (
-                <li>
-                  <Link to="/courses/11-commerce" className="hover:text-white transition-colors">
-                    11th Commerce Foundation
-                  </Link>
-                </li>
-              )}
-              {settings.showGrade12 && (
-                <li>
-                  <Link to="/courses/12-commerce" className="hover:text-white transition-colors">
-                    12th Commerce Board Mastery
-                  </Link>
-                </li>
-              )}
+              <li>
+                <span className="text-slate-300">11th Commerce Foundation</span>
+              </li>
+              <li>
+                <span className="text-slate-300">12th Commerce Board Series</span>
+              </li>
               <li>
                 <span className="text-slate-400">Financial & Corporate Accounting</span>
               </li>

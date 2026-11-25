@@ -21,7 +21,6 @@ export interface WebsiteSettings {
   whatsappNumber: string;
 
   // Feature / Navigation toggles
-  showCourses: boolean;
   showGrade11: boolean;
   showGrade12: boolean;
   showAdmissions: boolean;
@@ -43,48 +42,31 @@ export interface Standard {
   createdAt?: string;
 }
 
-export interface Course {
-  _id: string;
-  title: string;
-  slug: string;
-  grade: '11th' | '12th' | string;
-  stream: string;
-  standard?: Standard | string;
-  description: string;
-  features: string[];
-  durationMonths: number;
-  feeAmount: number;
-  isActive: boolean;
-}
-
 export interface Subject {
   _id: string;
   name: string;
-  code: string;
-  grade: '11th' | '12th' | string;
-  standard?: Standard | string;
-  course: Course | string;
+  code?: string;
+  grade?: string;
+  standard: Standard | string;
   description?: string;
   order: number;
-  chapters?: {
-    chapterNumber: number;
-    title: string;
-    description?: string;
-  }[];
+  isActive?: boolean;
 }
 
 export interface Batch {
   _id: string;
   name: string;
   code: string;
-  grade: '11th' | '12th' | string;
+  grade?: string;
   standard?: Standard | string;
-  course: Course | string;
+  subject?: Subject | string;
   academicYear: string;
   scheduleTime: string;
   maxCapacity: number;
   currentEnrollment: number;
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Student {

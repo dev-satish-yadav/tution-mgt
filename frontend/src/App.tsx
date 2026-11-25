@@ -10,8 +10,6 @@ import { DashboardLayout } from './components/common/DashboardLayout';
 // Public pages
 import { HomePage } from './pages/public/HomePage';
 import { AboutPage } from './pages/public/AboutPage';
-import { CoursesPage } from './pages/public/CoursesPage';
-import { CourseDetailPage } from './pages/public/CourseDetailPage';
 import { AdmissionPage } from './pages/public/AdmissionPage';
 import { ContactPage } from './pages/public/ContactPage';
 
@@ -25,7 +23,7 @@ import { AdminStudents } from './pages/admin/AdminStudents';
 import { AdminTeachers } from './pages/admin/AdminTeachers';
 import { AdminBatches } from './pages/admin/AdminBatches';
 import { AdminStandards } from './pages/admin/AdminStandards';
-import { AdminCourses } from './pages/admin/AdminCourses';
+import { AdminSubjects } from './pages/admin/AdminSubjects';
 import { AdminMaterials } from './pages/admin/AdminMaterials';
 import { AdminTests } from './pages/admin/AdminTests';
 import { AdminAttendance } from './pages/admin/AdminAttendance';
@@ -64,8 +62,6 @@ export const App: React.FC = () => {
             {/* Public Website Routes */}
             <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
             <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
-            <Route path="/courses" element={<PublicLayout><CoursesPage /></PublicLayout>} />
-            <Route path="/courses/:slug" element={<PublicLayout><CourseDetailPage /></PublicLayout>} />
             <Route path="/admission" element={<PublicLayout><AdmissionPage /></PublicLayout>} />
             <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
 
@@ -85,7 +81,7 @@ export const App: React.FC = () => {
                       <Route path="teachers" element={<AdminTeachers />} />
                       <Route path="batches" element={<AdminBatches />} />
                       <Route path="standards" element={<AdminStandards />} />
-                      <Route path="courses" element={<AdminCourses />} />
+                      <Route path="subjects" element={<AdminSubjects />} />
                       <Route path="materials" element={<AdminMaterials />} />
                       <Route path="study-materials" element={<AdminMaterials />} />
                       <Route path="tests" element={<AdminTests />} />
@@ -109,7 +105,7 @@ export const App: React.FC = () => {
                     <Routes>
                       <Route path="dashboard" element={<TeacherDashboard />} />
                       <Route path="students" element={<AdminStudents />} />
-                      <Route path="courses" element={<AdminCourses />} />
+                      <Route path="subjects" element={<AdminSubjects />} />
                       <Route path="attendance" element={<TeacherAttendance />} />
                       <Route path="materials" element={<AdminMaterials />} />
                       <Route path="study-materials" element={<AdminMaterials />} />
