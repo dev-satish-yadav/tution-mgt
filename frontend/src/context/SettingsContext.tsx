@@ -48,6 +48,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     fetchSettings();
   }, []);
 
+  useEffect(() => {
+    if (settings?.instituteName) {
+      document.title = `${settings.instituteName}${settings.tagline ? ` | ${settings.tagline}` : ''}`;
+    }
+  }, [settings]);
+
   const updateSettings = async (newSettings: Partial<WebsiteSettings>): Promise<boolean> => {
     try {
       const response = await api.patch('/website/settings', newSettings);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/axios';
+import { useSettings } from '../../context/SettingsContext';
 import {
   Users,
   GraduationCap,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
+  const { settings } = useSettings();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,7 +54,7 @@ export const AdminDashboard: React.FC = () => {
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Academic Overview & Controls</h1>
           <p className="text-xs sm:text-sm text-slate-300">
-            Real-time management for 11th & 12th Commerce students, faculty, batches, and enquiries.
+            Real-time management for {settings.instituteName || 'academy'} students, faculty, batches, and enquiries.
           </p>
         </div>
 

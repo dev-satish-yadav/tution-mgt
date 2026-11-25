@@ -7,7 +7,7 @@ const router = Router();
 // Public can read website settings & navigation toggles
 router.get('/settings', getWebsiteSettings);
 
-// Teachers & Admins can enable/disable pages and update settings
-router.patch('/settings', authenticate, requireRole(['ADMIN', 'TEACHER']), updateWebsiteSettings);
+// Only Super Admin can enable/disable pages and update website settings
+router.patch('/settings', authenticate, requireRole(['ADMIN']), updateWebsiteSettings);
 
 export default router;

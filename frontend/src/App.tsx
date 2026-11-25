@@ -111,7 +111,6 @@ export const App: React.FC = () => {
                       <Route path="study-materials" element={<AdminMaterials />} />
                       <Route path="tests" element={<AdminTests />} />
                       <Route path="announcements" element={<AdminAnnouncements />} />
-                      <Route path="settings" element={<AdminSettings />} />
                       <Route path="*" element={<Navigate to="/teacher/dashboard" replace />} />
                     </Routes>
                   </DashboardLayout>
