@@ -31,12 +31,25 @@ export interface WebsiteSettings {
   bannerNotice?: string;
 }
 
+export interface Standard {
+  _id: string;
+  name: string;
+  code: string;
+  standard: string;
+  stream: string;
+  description?: string;
+  order: number;
+  isActive: boolean;
+  createdAt?: string;
+}
+
 export interface Course {
   _id: string;
   title: string;
   slug: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
   stream: string;
+  standard?: Standard | string;
   description: string;
   features: string[];
   durationMonths: number;
@@ -48,7 +61,8 @@ export interface Subject {
   _id: string;
   name: string;
   code: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
+  standard?: Standard | string;
   course: Course | string;
   description?: string;
   order: number;
@@ -63,7 +77,8 @@ export interface Batch {
   _id: string;
   name: string;
   code: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
+  standard?: Standard | string;
   course: Course | string;
   academicYear: string;
   scheduleTime: string;
@@ -127,40 +142,6 @@ export interface StudyMaterial {
     role: string;
   };
   createdAt: string;
-}
-
-export interface Homework {
-  _id: string;
-  title: string;
-  description: string;
-  grade: '11th' | '12th';
-  subject: Subject;
-  batch: Batch;
-  assignedBy: {
-    name: string;
-  };
-  dueDate: string;
-  totalMarks?: number;
-  attachmentUrl?: string;
-  attachmentName?: string;
-  createdAt: string;
-}
-
-export interface HomeworkSubmission {
-  _id: string;
-  homework: Homework;
-  student: {
-    _id: string;
-    name: string;
-    email: string;
-  };
-  fileUrl: string;
-  fileName: string;
-  status: 'SUBMITTED' | 'EVALUATED' | 'LATE';
-  marksObtained?: number;
-  feedback?: string;
-  submittedAt: string;
-  evaluatedAt?: string;
 }
 
 export interface Question {

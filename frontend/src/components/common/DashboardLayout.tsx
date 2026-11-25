@@ -51,10 +51,10 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
       { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
       { name: 'Students', path: '/admin/students', icon: GraduationCap },
       { name: 'Teachers', path: '/admin/teachers', icon: Users },
-      { name: 'Batches', path: '/admin/batches', icon: Layers },
+      { name: 'Standards & Streams', path: '/admin/standards', icon: Layers },
+      { name: 'Batches', path: '/admin/batches', icon: Calendar },
       { name: 'Courses & Syllabus', path: '/admin/courses', icon: BookOpen },
       { name: 'Study Materials', path: '/admin/materials', icon: FileText },
-      { name: 'Homework', path: '/admin/homework', icon: ClipboardList },
       { name: 'Tests & Quizzes', path: '/admin/tests', icon: CheckSquare },
       { name: 'Attendance Records', path: '/admin/attendance', icon: UserCheck },
       { name: 'Announcements', path: '/admin/announcements', icon: Bell },
@@ -64,9 +64,10 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   } else if (role === 'TEACHER') {
     navItems = [
       { name: 'Dashboard', path: '/teacher/dashboard', icon: LayoutDashboard },
+      { name: 'Students', path: '/teacher/students', icon: GraduationCap },
+      { name: 'Courses & Syllabus', path: '/teacher/courses', icon: BookOpen },
       { name: 'Mark Attendance', path: '/teacher/attendance', icon: UserCheck },
       { name: 'Study Materials', path: '/teacher/materials', icon: FileText },
-      { name: 'Homework & Evaluation', path: '/teacher/homework', icon: ClipboardList },
       { name: 'Tests & Results', path: '/teacher/tests', icon: CheckSquare },
       { name: 'Announcements', path: '/teacher/announcements', icon: Bell },
       { name: 'Website Controls', path: '/teacher/settings', icon: Settings },
@@ -75,7 +76,6 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     navItems = [
       { name: 'Overview', path: '/student/dashboard', icon: LayoutDashboard },
       { name: 'Study Materials', path: '/student/materials', icon: FileText },
-      { name: 'Homework', path: '/student/homework', icon: ClipboardList },
       { name: 'Online Tests', path: '/student/tests', icon: CheckSquare },
       { name: 'Attendance', path: '/student/attendance', icon: UserCheck },
       { name: 'Timetable', path: '/student/timetable', icon: Calendar },

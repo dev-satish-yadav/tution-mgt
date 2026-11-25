@@ -24,9 +24,9 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminStudents } from './pages/admin/AdminStudents';
 import { AdminTeachers } from './pages/admin/AdminTeachers';
 import { AdminBatches } from './pages/admin/AdminBatches';
+import { AdminStandards } from './pages/admin/AdminStandards';
 import { AdminCourses } from './pages/admin/AdminCourses';
 import { AdminMaterials } from './pages/admin/AdminMaterials';
-import { AdminHomework } from './pages/admin/AdminHomework';
 import { AdminTests } from './pages/admin/AdminTests';
 import { AdminAttendance } from './pages/admin/AdminAttendance';
 import { AdminAnnouncements } from './pages/admin/AdminAnnouncements';
@@ -40,7 +40,6 @@ import { TeacherAttendance } from './pages/teacher/TeacherAttendance';
 // Student pages
 import { StudentDashboard } from './pages/student/StudentDashboard';
 import { StudentMaterials } from './pages/student/StudentMaterials';
-import { StudentHomework } from './pages/student/StudentHomework';
 import { StudentTests } from './pages/student/StudentTests';
 import { StudentAttendance } from './pages/student/StudentAttendance';
 import { StudentTimetable } from './pages/student/StudentTimetable';
@@ -85,10 +84,10 @@ export const App: React.FC = () => {
                       <Route path="students" element={<AdminStudents />} />
                       <Route path="teachers" element={<AdminTeachers />} />
                       <Route path="batches" element={<AdminBatches />} />
+                      <Route path="standards" element={<AdminStandards />} />
                       <Route path="courses" element={<AdminCourses />} />
                       <Route path="materials" element={<AdminMaterials />} />
                       <Route path="study-materials" element={<AdminMaterials />} />
-                      <Route path="homework" element={<AdminHomework />} />
                       <Route path="tests" element={<AdminTests />} />
                       <Route path="attendance" element={<AdminAttendance />} />
                       <Route path="announcements" element={<AdminAnnouncements />} />
@@ -109,10 +108,11 @@ export const App: React.FC = () => {
                   <DashboardLayout>
                     <Routes>
                       <Route path="dashboard" element={<TeacherDashboard />} />
+                      <Route path="students" element={<AdminStudents />} />
+                      <Route path="courses" element={<AdminCourses />} />
                       <Route path="attendance" element={<TeacherAttendance />} />
                       <Route path="materials" element={<AdminMaterials />} />
                       <Route path="study-materials" element={<AdminMaterials />} />
-                      <Route path="homework" element={<AdminHomework />} />
                       <Route path="tests" element={<AdminTests />} />
                       <Route path="announcements" element={<AdminAnnouncements />} />
                       <Route path="settings" element={<AdminSettings />} />
@@ -133,7 +133,6 @@ export const App: React.FC = () => {
                       <Route path="dashboard" element={<StudentDashboard />} />
                       <Route path="materials" element={<StudentMaterials />} />
                       <Route path="study-materials" element={<StudentMaterials />} />
-                      <Route path="homework" element={<StudentHomework />} />
                       <Route path="tests" element={<StudentTests />} />
                       <Route path="attendance" element={<StudentAttendance />} />
                       <Route path="timetable" element={<StudentTimetable />} />

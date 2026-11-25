@@ -3,7 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ISubject extends Document {
   name: string;
   code: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
+  standard?: mongoose.Types.ObjectId;
   course: mongoose.Types.ObjectId;
   description?: string;
   order: number;
@@ -32,8 +33,12 @@ const SubjectSchema = new Schema<ISubject>(
     },
     grade: {
       type: String,
-      enum: ['11th', '12th'],
       required: true,
+      index: true,
+    },
+    standard: {
+      type: Schema.Types.ObjectId,
+      ref: 'Standard',
       index: true,
     },
     course: {

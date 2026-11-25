@@ -3,8 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ICourse extends Document {
   title: string;
   slug: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
   stream: string;
+  standard?: mongoose.Types.ObjectId;
   description: string;
   features: string[];
   durationMonths: number;
@@ -30,13 +31,17 @@ const CourseSchema = new Schema<ICourse>(
     },
     grade: {
       type: String,
-      enum: ['11th', '12th'],
       required: true,
       index: true,
     },
     stream: {
       type: String,
       default: 'Commerce',
+    },
+    standard: {
+      type: Schema.Types.ObjectId,
+      ref: 'Standard',
+      index: true,
     },
     description: {
       type: String,

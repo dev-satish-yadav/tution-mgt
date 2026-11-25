@@ -42,7 +42,6 @@ export const StudentDashboard: React.FC = () => {
 
   const profile = data?.profile;
   const stats = data?.stats || {};
-  const pendingHomework = data?.pendingHomework || [];
   const upcomingTests = data?.upcomingTests || [];
   const announcements = data?.announcements || [];
 
@@ -82,7 +81,7 @@ export const StudentDashboard: React.FC = () => {
       </div>
 
       {/* Quick Academic Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-bold uppercase tracking-wider">Attendance</span>
@@ -92,15 +91,6 @@ export const StudentDashboard: React.FC = () => {
           <p className="text-xs text-slate-400">
             {stats.presentClasses || 0} / {stats.totalClasses || 0} Sessions
           </p>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-bold uppercase tracking-wider">Pending Homework</span>
-            <ClipboardList className="w-5 h-5 text-indigo-600" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900">{stats.pendingHomeworkCount || 0}</p>
-          <p className="text-xs text-slate-400">Assignments Due</p>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
@@ -122,107 +112,65 @@ export const StudentDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Two Column Layout: Homework & Tests */}
+      {/* Two Column Layout: Tests & Announcements */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left: Pending Homework */}
-        <div className="lg:col-span-6 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+        {/* Left: Upcoming Tests */}
+        <div className="lg:col-span-7 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Active Homework Tasks</h2>
-              <p className="text-xs text-slate-500">Assignments to submit for teacher feedback</p>
+              <h2 className="text-base font-bold text-slate-900">Online Practice Tests</h2>
+              <p className="text-xs text-slate-500">Multiple-choice quizzes available for practice</p>
             </div>
             <Link
-              to="/student/homework"
+              to="/student/tests"
               className="inline-flex items-center space-x-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800"
             >
-              <span>View All</span>
+              <span>Take Test</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {pendingHomework.length === 0 ? (
-            <div className="text-center py-8 text-xs text-slate-400">No pending homework due this week.</div>
+          {upcomingTests.length === 0 ? (
+            <div className="text-center py-8 text-xs text-slate-400">No tests scheduled currently.</div>
           ) : (
             <div className="space-y-3">
-              {pendingHomework.map((hw: any) => (
-                <div key={hw._id} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-bold">
-                      {hw.subject?.name}
-                    </span>
-                    <span className="text-slate-500 font-medium flex items-center space-x-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                      <span>Due: {new Date(hw.dueDate).toLocaleDateString()}</span>
-                    </span>
+              {upcomingTests.map((t: any) => (
+                <div key={t._id} className="p-4 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-bold text-slate-900 block text-sm">{t.title}</span>
+                    <span className="text-slate-500">{t.subject?.name} • Duration: {t.durationMinutes}m</span>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm">{hw.title}</h3>
-                  <p className="text-slate-600 line-clamp-1">{hw.description}</p>
+                  <Link
+                    to="/student/tests"
+                    className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold text-xs hover:bg-indigo-700 transition-colors"
+                  >
+                    Attempt
+                  </Link>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Right: Upcoming Tests & Notice Board */}
-        <div className="lg:col-span-6 space-y-6">
-          {/* Upcoming Tests */}
-          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <h2 className="text-base font-bold text-slate-900">Online Practice Tests</h2>
-                <p className="text-xs text-slate-500">Multiple-choice quizzes available for practice</p>
-              </div>
-              <Link
-                to="/student/tests"
-                className="inline-flex items-center space-x-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800"
-              >
-                <span>Take Test</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {upcomingTests.length === 0 ? (
-              <div className="text-center py-6 text-xs text-slate-400">No tests scheduled currently.</div>
-            ) : (
-              <div className="space-y-3">
-                {upcomingTests.map((t: any) => (
-                  <div key={t._id} className="p-3.5 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
-                    <div>
-                      <span className="font-bold text-slate-900 block text-sm">{t.title}</span>
-                      <span className="text-slate-500">{t.subject?.name} • Duration: {t.durationMinutes}m</span>
-                    </div>
-                    <Link
-                      to="/student/tests"
-                      className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold text-xs hover:bg-indigo-700 transition-colors"
-                    >
-                      Attempt
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            )}
+        {/* Right: Announcements */}
+        <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div className="flex items-center space-x-2 border-b border-slate-100 pb-4 text-slate-900 font-bold text-base">
+            <Bell className="w-4 h-4 text-indigo-600" />
+            <h2>Notice Board</h2>
           </div>
 
-          {/* Announcements */}
-          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center space-x-2 border-b border-slate-100 pb-4 text-slate-900 font-bold text-base">
-              <Bell className="w-4 h-4 text-indigo-600" />
-              <h2>Notice Board</h2>
+          {announcements.length === 0 ? (
+            <div className="text-center py-6 text-xs text-slate-400">No announcements posted.</div>
+          ) : (
+            <div className="space-y-3">
+              {announcements.map((ann: any) => (
+                <div key={ann._id} className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
+                  <p className="font-bold text-slate-900">{ann.title}</p>
+                  <p className="text-slate-600 text-[11px] leading-relaxed">{ann.content}</p>
+                </div>
+              ))}
             </div>
-
-            {announcements.length === 0 ? (
-              <div className="text-center py-4 text-xs text-slate-400">No announcements posted.</div>
-            ) : (
-              <div className="space-y-3">
-                {announcements.map((ann: any) => (
-                  <div key={ann._id} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
-                    <p className="font-bold text-slate-900">{ann.title}</p>
-                    <p className="text-slate-600 text-[11px] leading-relaxed">{ann.content}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

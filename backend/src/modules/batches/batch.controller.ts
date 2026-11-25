@@ -9,7 +9,10 @@ export const getBatches = async (req: Request, res: Response, next: NextFunction
     if (req.query.grade) filter.grade = req.query.grade;
     if (req.query.isActive !== undefined) filter.isActive = req.query.isActive === 'true';
 
-    const batches = await Batch.find(filter).populate('course', 'title grade').sort({ createdAt: -1 });
+    const batches = await Batch.find(filter)
+      .populate('course', 'title grade')
+      .populate('standard', 'name code standard stream')
+      .sort({ createdAt: -1 });
     return sendSuccess(res, batches, 'Batches retrieved');
   } catch (error) {
     next(error);
@@ -18,7 +21,9 @@ export const getBatches = async (req: Request, res: Response, next: NextFunction
 
 export const getBatchById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const batch = await Batch.findById(req.params.id).populate('course', 'title grade');
+    const batch = await Batch.findById(req.params.id)
+      .populate('course', 'title grade')
+      .populate('standard', 'name code standard stream');
     if (!batch) throw AppError.notFound('Batch not found');
     return sendSuccess(res, batch, 'Batch details retrieved');
   } catch (error) {

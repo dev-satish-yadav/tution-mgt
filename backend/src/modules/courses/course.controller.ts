@@ -9,7 +9,9 @@ export const getCourses = async (req: Request, res: Response, next: NextFunction
     if (req.query.grade) filter.grade = req.query.grade;
     if (req.query.isActive !== undefined) filter.isActive = req.query.isActive === 'true';
 
-    const courses = await Course.find(filter).sort({ grade: 1 });
+    const courses = await Course.find(filter)
+      .populate('standard', 'name code standard stream')
+      .sort({ grade: 1 });
     return sendSuccess(res, courses, 'Courses fetched successfully');
   } catch (error) {
     next(error);
@@ -42,6 +44,16 @@ export const updateCourse = async (req: Request, res: Response, next: NextFuncti
     const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!course) throw AppError.notFound('Course not found');
     return sendSuccess(res, course, 'Course updated successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteCourse = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const course = await Course.findByIdAndDelete(req.params.id);
+    if (!course) throw AppError.notFound('Course not found');
+    return sendSuccess(res, null, 'Course deleted successfully');
   } catch (error) {
     next(error);
   }

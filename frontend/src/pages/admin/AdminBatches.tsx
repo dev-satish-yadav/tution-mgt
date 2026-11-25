@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/axios';
-import { Batch, Course } from '../../types';
+import { Batch, Course, Standard } from '../../types';
 import { Layers, Plus, Clock, Users, X, CheckCircle2 } from 'lucide-react';
 
 export const AdminBatches: React.FC = () => {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
+  const [standards, setStandards] = useState<Standard[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
@@ -13,6 +14,7 @@ export const AdminBatches: React.FC = () => {
     name: '',
     code: '',
     grade: '12th',
+    standardId: '',
     courseId: '',
     academicYear: '2026-2027',
     scheduleTime: '08:00 AM - 11:30 AM (Mon - Sat)',
@@ -35,20 +37,30 @@ export const AdminBatches: React.FC = () => {
     }
   };
 
-  const fetchCourses = async () => {
+  const fetchDeps = async () => {
     try {
-      const response = await api.get('/courses');
-      if (response.data.success) {
-        setCourses(response.data.data);
+      const [cRes, sRes] = await Promise.all([api.get('/courses'), api.get('/standards')]);
+      if (cRes.data.success) {
+        setCourses(cRes.data.data);
+      }
+      if (sRes.data.success) {
+        setStandards(sRes.data.data);
+        if (sRes.data.data.length > 0) {
+          setFormData((prev) => ({
+            ...prev,
+            standardId: prev.standardId || sRes.data.data[0]._id,
+            grade: prev.grade || sRes.data.data[0].standard,
+          }));
+        }
       }
     } catch (err) {
-      console.error('Failed to load courses', err);
+      console.error('Failed to load courses & standards', err);
     }
   };
 
   useEffect(() => {
     fetchBatches();
-    fetchCourses();
+    fetchDeps();
   }, []);
 
   const handleCreateBatch = async (e: React.FormEvent) => {
@@ -57,9 +69,14 @@ export const AdminBatches: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const selectedCourse = courses.find((c) => c.grade === formData.grade) || courses[0];
+      const selectedStd = standards.find((s) => s._id === formData.standardId);
+      const targetGrade = selectedStd ? selectedStd.standard : formData.grade;
+
+      const selectedCourse = courses.find((c) => c._id === formData.courseId || c.grade === targetGrade) || courses[0];
       const payload = {
         ...formData,
+        grade: targetGrade,
+        standard: formData.standardId || selectedStd?._id,
         course: formData.courseId || selectedCourse?._id,
       };
 
@@ -197,14 +214,24 @@ export const AdminBatches: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Target Grade *</label>
+                  <label className="block font-semibold text-slate-700 mb-1">Standard / Stream *</label>
                   <select
-                    value={formData.grade}
-                    onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
+                    value={formData.standardId}
+                    onChange={(e) => {
+                      const std = standards.find((s) => s._id === e.target.value);
+                      setFormData({
+                        ...formData,
+                        standardId: e.target.value,
+                        grade: std ? std.standard : formData.grade,
+                      });
+                    }}
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
                   >
-                    <option value="12th">12th Commerce</option>
-                    <option value="11th">11th Commerce</option>
+                    {standards.map((s) => (
+                      <option key={s._id} value={s._id}>
+                        {s.name} ({s.code})
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

@@ -5,8 +5,6 @@ import { TeacherProfile } from '../teachers/teacher.model.js';
 import { Course } from '../courses/course.model.js';
 import { Batch } from '../batches/batch.model.js';
 import { Enquiry } from '../enquiries/enquiry.model.js';
-import { Homework } from '../homework/homework.model.js';
-import { Submission } from '../homework/submission.model.js';
 import { Test } from '../tests/test.model.js';
 import { TestAttempt } from '../tests/test-attempt.model.js';
 import { Attendance } from '../attendance/attendance.model.js';
@@ -68,8 +66,7 @@ export const getTeacherDashboard = async (req: AuthenticatedRequest, res: Respon
 
     const batchIds = assignments.map((a) => a.batch?._id).filter(Boolean);
 
-    const [activeHomeworkCount, upcomingTestsCount, totalAssignedStudents] = await Promise.all([
-      Homework.countDocuments({ assignedBy: teacherId, dueDate: { $gte: new Date() } }),
+    const [upcomingTestsCount, totalAssignedStudents] = await Promise.all([
       Test.countDocuments({ createdBy: teacherId, scheduledDate: { $gte: new Date() } }),
       StudentProfile.countDocuments({ batch: { $in: batchIds } }),
     ]);
@@ -78,7 +75,6 @@ export const getTeacherDashboard = async (req: AuthenticatedRequest, res: Respon
       stats: {
         assignedBatchesCount: batchIds.length,
         totalStudentsCount: totalAssignedStudents,
-        activeHomeworkCount,
         upcomingTestsCount,
       },
       assignments,
@@ -95,10 +91,7 @@ export const getStudentDashboard = async (req: AuthenticatedRequest, res: Respon
 
     const batchId = profile?.batch?._id;
 
-    const [pendingHomework, upcomingTests, announcements, attendances] = await Promise.all([
-      batchId
-        ? Homework.find({ batch: batchId, dueDate: { $gte: new Date() } }).populate('subject', 'name code').limit(5)
-        : [],
+    const [upcomingTests, announcements, attendances] = await Promise.all([
       batchId
         ? Test.find({ batch: batchId, scheduledDate: { $gte: new Date() } }).populate('subject', 'name code').limit(5)
         : [],
@@ -125,10 +118,8 @@ export const getStudentDashboard = async (req: AuthenticatedRequest, res: Respon
         attendanceRate,
         totalClasses: totalDays,
         presentClasses: presentDays,
-        pendingHomeworkCount: pendingHomework.length,
         upcomingTestsCount: upcomingTests.length,
       },
-      pendingHomework,
       upcomingTests,
       announcements,
     });

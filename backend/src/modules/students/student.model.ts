@@ -3,8 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IStudentProfile extends Document {
   user: mongoose.Types.ObjectId;
   rollNo: string;
-  grade: '11th' | '12th';
+  grade: '11th' | '12th' | string;
   stream: string; // e.g. Commerce
+  standard?: mongoose.Types.ObjectId;
   parentName: string;
   parentPhone: string;
   parentEmail?: string;
@@ -33,13 +34,17 @@ const StudentProfileSchema = new Schema<IStudentProfile>(
     },
     grade: {
       type: String,
-      enum: ['11th', '12th'],
       required: true,
       index: true,
     },
     stream: {
       type: String,
       default: 'Commerce',
+    },
+    standard: {
+      type: Schema.Types.ObjectId,
+      ref: 'Standard',
+      index: true,
     },
     parentName: {
       type: String,

@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { connectDatabase } from '../config/database.js';
 import { config } from '../config/env.js';
 import { User } from '../modules/users/user.model.js';
+import { Standard } from '../modules/standards/standard.model.js';
 import { Course } from '../modules/courses/course.model.js';
 import { Subject } from '../modules/subjects/subject.model.js';
 import { Batch } from '../modules/batches/batch.model.js';
@@ -11,7 +12,6 @@ import { TeacherAssignment } from '../modules/teachers/teacher-assignment.model.
 import { Enrollment } from '../modules/enrollments/enrollment.model.js';
 import { Announcement } from '../modules/announcements/announcement.model.js';
 import { StudyMaterial } from '../modules/materials/material.model.js';
-import { Homework } from '../modules/homework/homework.model.js';
 import { Test } from '../modules/tests/test.model.js';
 
 export const seedData = async () => {
@@ -35,6 +35,35 @@ export const seedData = async () => {
       console.log(`[Seed] Admin already exists: ${admin.email}`);
     }
 
+    // 1.5 Seed Standards / Streams
+    let std11 = await Standard.findOne({ code: 'STD-11-COMM' });
+    if (!std11) {
+      std11 = await Standard.create({
+        name: '11th Commerce',
+        code: 'STD-11-COMM',
+        standard: '11th',
+        stream: 'Commerce',
+        description: 'Foundational commerce coaching covering Accountancy, Economics, Business Studies, and Mathematics.',
+        order: 1,
+        isActive: true,
+      });
+      console.log('[Seed] Standard 11th Commerce seeded');
+    }
+
+    let std12 = await Standard.findOne({ code: 'STD-12-COMM' });
+    if (!std12) {
+      std12 = await Standard.create({
+        name: '12th Commerce',
+        code: 'STD-12-COMM',
+        standard: '12th',
+        stream: 'Commerce',
+        description: 'Board examination mastery and CUET entrance prep for senior secondary commerce scholars.',
+        order: 2,
+        isActive: true,
+      });
+      console.log('[Seed] Standard 12th Commerce seeded');
+    }
+
     // 2. Seed Courses for 11th and 12th Commerce
     let course11 = await Course.findOne({ slug: '11-commerce' });
     if (!course11) {
@@ -43,6 +72,7 @@ export const seedData = async () => {
         slug: '11-commerce',
         grade: '11th',
         stream: 'Commerce',
+        standard: std11._id,
         description: 'Rigorous foundation in Accountancy, Economics, Business Studies and Applied Mathematics designed for CBSE and State Board excellence.',
         features: [
           'Conceptual depth in Financial Accounting',
@@ -55,6 +85,9 @@ export const seedData = async () => {
         isActive: true,
       });
       console.log('[Seed] 11th Commerce Course seeded');
+    } else if (!course11.standard) {
+      course11.standard = std11._id;
+      await course11.save();
     }
 
     let course12 = await Course.findOne({ slug: '12-commerce' });
@@ -64,6 +97,7 @@ export const seedData = async () => {
         slug: '12-commerce',
         grade: '12th',
         stream: 'Commerce',
+        standard: std12._id,
         description: 'Elite board preparation program covering Company Accounts, Macroeconomics, Business Management with full mock exam series.',
         features: [
           'Mastery over Partnership and Company Accounting',
@@ -76,6 +110,9 @@ export const seedData = async () => {
         isActive: true,
       });
       console.log('[Seed] 12th Commerce Course seeded');
+    } else if (!course12.standard) {
+      course12.standard = std12._id;
+      await course12.save();
     }
 
     // 3. Seed Subjects for 11th and 12th Commerce
@@ -284,22 +321,7 @@ export const seedData = async () => {
         });
       }
 
-      // 9. Seed Sample Homework
-      const hwExists = await Homework.countDocuments();
-      if (hwExists === 0) {
-        await Homework.create({
-          title: 'Profit & Loss Appropriation Practice Problems',
-          description: 'Solve questions 1 through 15 from the assignment sheet. Show complete workings and journal entries.',
-          grade: '12th',
-          subject: acc12._id,
-          batch: batch12Morning._id,
-          assignedBy: primaryTeacherUser._id,
-          dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
-          totalMarks: 20,
-        });
-      }
-
-      // 10. Seed Sample Online Test with Questions
+      // 9. Seed Sample Online Test with Questions
       const testExists = await Test.countDocuments();
       if (testExists === 0) {
         await Test.create({

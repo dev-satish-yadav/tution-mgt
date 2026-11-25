@@ -53,30 +53,37 @@ export const TeacherDashboard: React.FC = () => {
             Welcome back, {user?.name}
           </h1>
           <p className="text-xs sm:text-sm text-amber-100">
-            Manage your assigned batches, student attendance, homework evaluation, and diagnostic tests.
+            Manage your assigned batches, student attendance, study materials, and diagnostic tests.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-3">
           <Link
-            to="/teacher/attendance"
+            to="/teacher/students"
             className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-white text-amber-900 font-semibold text-xs hover:bg-slate-100 transition-colors shadow"
           >
-            <UserCheck className="w-4 h-4 text-amber-700" />
+            <GraduationCap className="w-4 h-4 text-amber-700" />
+            <span>Students & Enroll</span>
+          </Link>
+          <Link
+            to="/teacher/attendance"
+            className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-amber-900/60 hover:bg-amber-900/80 text-white border border-amber-400/30 font-semibold text-xs transition-colors"
+          >
+            <UserCheck className="w-4 h-4" />
             <span>Mark Attendance</span>
           </Link>
           <Link
-            to="/teacher/homework"
+            to="/teacher/tests"
             className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-amber-900/60 hover:bg-amber-900/80 text-white border border-amber-400/30 font-semibold text-xs transition-colors"
           >
             <Plus className="w-4 h-4" />
-            <span>Assign Homework</span>
+            <span>Create Test</span>
           </Link>
         </div>
       </div>
 
       {/* Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-bold uppercase tracking-wider">Assigned Batches</span>
@@ -93,15 +100,6 @@ export const TeacherDashboard: React.FC = () => {
           </div>
           <p className="text-2xl sm:text-3xl font-extrabold text-slate-900">{stats.totalStudentsCount || 0}</p>
           <p className="text-xs text-slate-400">Total Enrolled</p>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-bold uppercase tracking-wider">Active Homework</span>
-            <ClipboardList className="w-5 h-5 text-emerald-600" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900">{stats.activeHomeworkCount || 0}</p>
-          <p className="text-xs text-slate-400">Assignments Due</p>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
